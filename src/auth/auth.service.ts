@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
-
+//business logic
 @Injectable({})
 export class AuthService {
   login() {
-    console.log('login');
+    return { msg: 'sigied in' };
   }
-  signUp() {}
+  signUp() {
+    return { msg: 'sigied up' };
+  }
 }
