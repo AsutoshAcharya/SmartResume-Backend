@@ -23,5 +23,7 @@ export class ResumeController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('get_all')
-  getAllResume() {}
+  getAllResume() {
+    return this.resumeService.getAllResume();
+  }
 }
