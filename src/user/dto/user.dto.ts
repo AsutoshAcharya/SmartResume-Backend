@@ -24,3 +24,8 @@ export class LoginDto {
   @IsString()
   password: string;
 }
+
+export interface JwtDto {
+  name: string;
+  id: string;
+}

@@ -3,8 +3,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schemas/user.schema';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { JwtModule } from '@nestjs/jwt';
+
 import 'dotenv/config';
+// import { PassportModule } from '@nestjs/passport';
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -13,11 +14,6 @@ import 'dotenv/config';
         schema: UserSchema,
       },
     ]),
-    JwtModule.register({
-      global: true,
-      secret: process.env.JWT,
-      signOptions: { expiresIn: '1d' },
-    }),
   ],
   providers: [UserService],
   controllers: [UserController],
