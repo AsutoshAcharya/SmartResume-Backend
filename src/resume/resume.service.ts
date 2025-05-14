@@ -54,6 +54,7 @@ export class ResumeService {
     return {
       status: 200,
       message: 'Resume has been updated',
+      data: updatedResume,
     };
   }
 

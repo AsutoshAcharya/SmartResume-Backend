@@ -1,6 +1,7 @@
 import {
-  BadRequestException,
+  ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -24,10 +25,7 @@ export class UserService {
       $or: [{ name: createUserDto.name }, { email: createUserDto.email }],
     });
     if (exists) {
-      return {
-        status: 409,
-        message: `User with name or email already exists`,
-      };
+      throw new ConflictException('User already exists');
     }
     console.log(createUserDto);
     const hashedPassword = await bcrypt.hash(createUserDto.password, 12);
@@ -44,7 +42,7 @@ export class UserService {
 
   async loginUser(loginDto: LoginDto) {
     const user = await this.userModel.findOne({ email: loginDto.email });
-    if (!user) throw new BadRequestException('User is not registered');
+    if (!user) throw new NotFoundException('User is not registered');
 
     const isMatched = await bcrypt.compare(loginDto.password, user.password);
     if (!isMatched) throw new UnauthorizedException('Invalid password');
