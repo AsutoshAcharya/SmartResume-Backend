@@ -14,8 +14,8 @@ export class ResumeController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('get_one/:id')
-  getResumeById() {}
+  @Get('get_all/:userId')
+  getResumeByUserId() {}
 
   @UseGuards(AuthGuard('jwt'))
   @Post('update/:id')

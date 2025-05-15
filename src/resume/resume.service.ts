@@ -25,9 +25,9 @@ export class ResumeService {
     };
   }
 
-  async getResumeById(userId: string) {
+  async getResumeByUserId(userId: string) {
     const allUserSpecificResume = await this.resumeModel.find({
-      _id: userId,
+      addedBy: userId,
     });
 
     return {
