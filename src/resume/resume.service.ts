@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Resume } from 'src/schemas/resume.schema';
 import { CreateResumeDto, UpdateResumeDto } from './dto/resume.dto';
 import { Some } from 'src/helpers';
@@ -45,7 +45,8 @@ export class ResumeService {
     if (!resume) {
       throw new NotFoundException('Resume not found');
     }
-    if (Some.String(resume.addedBy) !== userId)
+    // console.log(resume.addedBy, userId);
+    if (resume.addedBy.toString() !== userId)
       throw new UnauthorizedException("You can't edit this resume");
     const updatedResume = await this.resumeModel.updateOne(
       { _id: updateResumeDto.id },

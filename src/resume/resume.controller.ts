@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Request,
   UseGuards,
@@ -29,16 +30,17 @@ export class ResumeController {
   @Get('get_all/:userId')
   getResumeByUserId(@Param('userId') userId: string) {
     // need to pass userId inside Param decorator
-    console.log('User ID:', userId);
+    // console.log('User ID:', userId);
     return this.resumeService.getResumeByUserId(userId);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('update')
+  @Patch('update')
   updateResume(
     @Request() req: Request & { user: JwtDto },
     @Body() updateResumeDto: UpdateResumeDto,
   ) {
+    // console.log(req?.user?.id);
     return this.resumeService.updateResume(req?.user?.id, updateResumeDto);
   }
 
