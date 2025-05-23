@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Request,
   UseGuards,
@@ -9,7 +10,7 @@ import {
 import { ResumeService } from './resume.service';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtDto } from 'src/user/dto/user.dto';
-import { CreateResumeDto } from './dto/resume.dto';
+import { CreateResumeDto, UpdateResumeDto } from './dto/resume.dto';
 
 @Controller('resume')
 export class ResumeController {
@@ -26,11 +27,20 @@ export class ResumeController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('get_all/:userId')
-  getResumeByUserId() {}
+  getResumeByUserId(@Param('userId') userId: string) {
+    // need to pass userId inside Param decorator
+    console.log('User ID:', userId);
+    return this.resumeService.getResumeByUserId(userId);
+  }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('update/:id')
-  updateResume() {}
+  @Post('update')
+  updateResume(
+    @Request() req: Request & { user: JwtDto },
+    @Body() updateResumeDto: UpdateResumeDto,
+  ) {
+    return this.resumeService.updateResume(req?.user?.id, updateResumeDto);
+  }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('get_all')
