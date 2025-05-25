@@ -58,6 +58,21 @@ export class ResumeService {
       data: updatedResume,
     };
   }
+  async deleteResume(userId: string, resumeId: string) {
+    const resume = await this.resumeModel.findById(resumeId);
+
+    if (!resume) {
+      throw new NotFoundException('Resume not found');
+    }
+    // console.log(resume.addedBy, userId);
+    if (resume.addedBy.toString() !== userId)
+      throw new UnauthorizedException("You can't delete this resume");
+    await this.resumeModel.deleteOne({ _id: resumeId });
+    return {
+      status: 200,
+      message: 'Resume has deleted',
+    };
+  }
 
   async getAllResume() {
     const allResume = await this.resumeModel.find();

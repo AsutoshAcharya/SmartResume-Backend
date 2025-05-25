@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -42,6 +43,15 @@ export class ResumeController {
   ) {
     // console.log(req?.user?.id);
     return this.resumeService.updateResume(req?.user?.id, updateResumeDto);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('/:resumeId')
+  deleteResume(
+    @Request() req: Request & { user: JwtDto },
+    @Param('resumeId') resumeId: string,
+  ) {
+    return this.resumeService.deleteResume(req?.user?.id, resumeId);
   }
 
   @UseGuards(AuthGuard('jwt'))
